@@ -60,7 +60,7 @@ export const fetchFavoriteCities = (favortieCities) => {
         const updateFavortieCities = [];
         favortieCities.forEach((city) => {
             promises.push(new Promise(resolve => {
-                axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/1day/${city.key}?apikey=${token}`)
+                axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/1day/${city.key}?apikey=${token}`)
                 .then(res => {
                     let updateCity = {
                         ...city,

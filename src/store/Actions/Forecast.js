@@ -25,7 +25,7 @@ const updateDailyForecasts = (dailyForecasts) => {
 
 export const updateForecastFiveDays = (cityInfo ,isLike) => {
   return dispatch => {
-    axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityInfo.key}?apikey=${token}`)
+    axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityInfo.key}?apikey=${token}`)
     .then(res =>{ 
        const fiveDailyForecasts = updateDailyForecasts(res.data.DailyForecasts);
        const updateInfoCity = {

@@ -19,7 +19,7 @@ const AutoCompleteBoxInput = (props) => {
           return;
       }
       setinput(input)
-      axios.get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${token}&&q=${input}`)
+      axios.get(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${token}&&q=${input}`)
       .then(res => {
             const fiveSuggetionList = res.data.slice(0,5);
             const updateSuugetionList = [];
