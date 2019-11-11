@@ -58,7 +58,7 @@ class WeatherForecast extends Component {
             <AutoCompleteBoxInput clickOption={this.onClickSearch} />
             <div className={classes.WeatherForecast}>
                 <Logo className={classes.Head}/>
-                <p className={classes.CityName}>{this.props.infoCity.city}, {this.props.infoCity.country}</p>
+                <p className={classes.CityName}>{this.props.infoCity.city},{this.props.infoCity.country}(test)</p>
                 <span className={classes.Like}> 
                      <Like isLike={this.props.infoCity.isLike} clickLike={this.updateFavoriteCities}/>
                 </span>
