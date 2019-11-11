@@ -1,0 +1,17 @@
+.Brand {
+    font-family: 'Liu Jian Mao Cao', cursive;
+}
+
+.NavgationItems {
+    font-family: 'Stoke', serif;
+    font-family: 'Lato', sans-serif;
+    font-family: 'Staatliches', cursive;
+}
+
+.myActive {
+    color: red;
+}
+
+.defualt {
+    color: white;
+}

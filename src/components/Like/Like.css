@@ -1,0 +1,41 @@
+.Red {
+    color: red;
+    font-size: 10px;
+}
+
+.Black {
+    background-color: black;
+}
+
+.Like {
+  display: inline-block;
+  position: relative;
+  font-size: 32px;
+  cursor: pointer;
+  
+}
+
+.Like::before {
+    font-size: 3em;
+    color: #000;
+    content: '♥';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .Like::after {
+    font-size: 3em;
+    color: #ff3252;
+    content: '♥';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s;
+  }
+  
+  
+  .Like.Liked::after {
+    transform: translate(-50%, -50%) scale(1.1);
+  }

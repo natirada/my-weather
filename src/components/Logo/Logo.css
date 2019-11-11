@@ -1,0 +1,10 @@
+.logo {
+    width: 200px;
+    height: 200px;
+}
+
+@media only screen and (max-width: 650px) {
+    .logo {
+        display: none;
+    }
+}
