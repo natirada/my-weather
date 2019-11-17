@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import Card from '../../components/Cards/ForecastCard/ForecastCard';
 import classes from './WeatherForecast.css';
 import Like from '../../components/Like/Like';
@@ -7,31 +7,37 @@ import Logo from '../../components/Logo/Logo';
 import {convertFahrenheitToCelsius} from '../../shared/utilitys';
 import {connect} from 'react-redux';
 import * as actions from '../../store/Actions/index';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../axios-weather';
+
+const WeatherForecast = props => {
+
+    useEffect(() => {
+        props.onInitForecastFiveDaysWithGeoLocation();
+        props.onupdateForecastFiveDays(props.infoCity, isLike(props.infoCity.key));
+    }, [])
+
+    // componentDidMount() {
+    //     props.onupdateForecastFiveDays(props.infoCity, isLike(props.infoCity.key));
+    // }
 
 
-class WeatherForecast extends Component {
-
-    componentDidMount() {
-        this.props.onupdateForecastFiveDays(this.props.infoCity, this.isLike(this.props.infoCity.key));
+    const onClickSearch = (optionCitySelected) => {
+        props.onupdateForecastFiveDays(optionCitySelected ,isLike(optionCitySelected.key) );
     }
 
-
-    onClickSearch = (optionCitySelected) => {
-        this.props.onupdateForecastFiveDays(optionCitySelected ,this.isLike(optionCitySelected.key) );
-    }
-
-    updateFavoriteCities = (stateLike) => {
-       this.props.updatIsLike(stateLike);
+    const updateFavoriteCities = (stateLike) => {
+       props.updatIsLike(stateLike);
         if(stateLike) {
-            this.props.addToFavorite(this.props.infoCity);
+            props.addToFavorite(props.infoCity);
         }else {
-            this.props.removeFavorite(this.props.infoCity.key)
+            props.removeFavorite(props.infoCity.key)
         }
     }
 
-    isLike = (key) => {
+    const  isLike = (key) => {
         let flag = false;
-        this.props.favoriteCities.forEach(el => {
+        props.favoriteCities.forEach(el => {
             if(el.key === key) {
                 flag = true;
                 return;
@@ -40,11 +46,8 @@ class WeatherForecast extends Component {
 
         return flag;
     }
-    render() {
-    
-        console.log(this.state);
-        
-        let cards = this.props.FiveDailyForecasts.map(forecasts => {
+ 
+        let cards = props.FiveDailyForecasts.map(forecasts => {
             return <Card 
                         key={forecasts.EpochDate} 
                         minTemperature={convertFahrenheitToCelsius(forecasts.Temperature.Minimum.Value)}
@@ -55,12 +58,12 @@ class WeatherForecast extends Component {
         } )
         return(
           <React.Fragment>
-            <AutoCompleteBoxInput clickOption={this.onClickSearch} />
+            <AutoCompleteBoxInput clickOption={onClickSearch} />
             <div className={classes.WeatherForecast}>
                 <Logo className={classes.Head}/>
-                <p className={classes.CityName}>{this.props.infoCity.city},{this.props.infoCity.country}</p>
+                <p className={classes.CityName}>{props.infoCity.city},{props.infoCity.country}</p>
                 <span className={classes.Like}> 
-                     <Like isLike={this.props.infoCity.isLike} clickLike={this.updateFavoriteCities}/>
+                     <Like isLike={props.infoCity.isLike} clickLike={updateFavoriteCities}/>
                 </span>
                 <div className={classes.Cards}> 
                     {cards}
@@ -69,14 +72,15 @@ class WeatherForecast extends Component {
           </React.Fragment>
         )
     }
-}
+
 
 const DispatchToProps = dispatch => {
     return {
         addToFavorite: (cityInfo) => dispatch(actions.addFavoriteCity(cityInfo)),
         removeFavorite: (key) => dispatch(actions.removeFavoriteCity(key)),
         onupdateForecastFiveDays: (cityInfo, isLike) => dispatch(actions.updateForecastFiveDays(cityInfo, isLike)),
-        updatIsLike: (isLike) => dispatch(actions.updatIsLike(isLike))
+        updatIsLike: (isLike) => dispatch(actions.updatIsLike(isLike)),
+        onInitForecastFiveDaysWithGeoLocation: () => dispatch(actions.initForecastFiveDaysWithGeoLocation())
     }
 }
 
@@ -88,5 +92,5 @@ const stateToProps = state => {
     }
 }
 
-export default connect(stateToProps , DispatchToProps)(WeatherForecast);
+export default connect(stateToProps , DispatchToProps)(withErrorHandler(WeatherForecast, axios));
 

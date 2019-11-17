@@ -1,8 +1,8 @@
 
 import * as ActionTypes from './actionsTypes';
-import axios from 'axios';
+import axios from '../../axios-weather';
 
-const token = 'm9lAGyPN4SxWZAFBBSghB43DxuBB1VDj';
+const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
 
 
 const addToLocalSoreage = (infoCity) => {
@@ -60,7 +60,7 @@ export const fetchFavoriteCities = (favortieCities) => {
         const updateFavortieCities = [];
         favortieCities.forEach((city) => {
             promises.push(new Promise(resolve => {
-                axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/1day/${city.key}?apikey=${token}`)
+                axios.get(`forecasts/v1/daily/1day/${city.key}?apikey=${token}`)
                 .then(res => {
                     let updateCity = {
                         ...city,

@@ -3,10 +3,10 @@ import React,{useState} from 'react';
 import classes from './AutoCompleteBoxInput.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
+import axios from '../../axios-weather';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-
-const token = 'm9lAGyPN4SxWZAFBBSghB43DxuBB1VDj';
+const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
 
 const AutoCompleteBoxInput = (props) => {
 
@@ -19,7 +19,7 @@ const AutoCompleteBoxInput = (props) => {
           return;
       }
       setinput(input)
-      axios.get(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${token}&&q=${input}`)
+      axios.get(`locations/v1/cities/autocomplete?apikey=${token}&&q=${input}`)
       .then(res => {
             const fiveSuggetionList = res.data.slice(0,5);
             const updateSuugetionList = [];
@@ -34,10 +34,7 @@ const AutoCompleteBoxInput = (props) => {
                 }
                 updateSuugetionList.push(updateCity);
             });
-    
-            
-            setsuggestionList(presuggestionList =>  [...updateSuugetionList]);
-             
+            setsuggestionList(presuggestionList =>  [...updateSuugetionList]);         
       }).catch(err => {
 
       })
@@ -83,4 +80,4 @@ const AutoCompleteBoxInput = (props) => {
   );
 }
 
-export default AutoCompleteBoxInput;
+export default withErrorHandler(AutoCompleteBoxInput, axios);

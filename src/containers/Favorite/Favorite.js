@@ -4,10 +4,19 @@ import classes from './Favorite.css';
 import * as actions from '../../store/Actions/index';
 import Card from '../../components/Cards/FavoriteCard/FavoriteCard';
 import {convertFahrenheitToCelsius} from '../../shared/utilitys';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../axios-weather';
+
 class Favorite extends Component {
 
     componentDidMount() {
         this.props.fetchFavoriteCites(this.props.favoriteCities);
+    }
+    componentDidUpdate(prevProps) {   
+         if(prevProps.favoriteCities !== this.props.favoriteCities) {
+            this.props.fetchFavoriteCites(this.props.favoriteCities);
+            
+       }
     }
     onClickDelte = (cityKey) => {
         this.props.deleteFromFavorites(cityKey);
@@ -18,7 +27,7 @@ class Favorite extends Component {
         if(this.props.fullFavoritCities.length !== 0) {
              cards = this.props.fullFavoritCities.map(city => {
                 return (<Card 
-                    key={city.EpochDate} 
+                    key={city.key} 
                     minTemperature={convertFahrenheitToCelsius(city.Temperature.Minimum.Value)}
                     maxTemperature={convertFahrenheitToCelsius(city.Temperature.Maximum.Value)}
                     city={city.city}
@@ -54,4 +63,4 @@ const dispatchToProps = dispatch => {
     }
 }
 
-export default connect(stateToProps, dispatchToProps)(Favorite);
+export default connect(stateToProps, dispatchToProps)(withErrorHandler(Favorite, axios));

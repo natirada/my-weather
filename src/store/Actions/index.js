@@ -9,5 +9,6 @@ export
 
 export {
     updateForecastFiveDays,
-    updatIsLike
+    updatIsLike,
+    initForecastFiveDaysWithGeoLocation
 }from './Forecast';

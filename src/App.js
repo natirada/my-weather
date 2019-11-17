@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
-import Navigation from './components/Navigation/Navigation';
 import {Route, Switch , Redirect} from 'react-router-dom';
 import WeatherForecast from './containers/WeatherForecast/WeatherForecast';
+import Layout from './hoc/Layout/Layout'
 import Favorite from './containers/Favorite/Favorite';
 import {connect} from 'react-redux';
 import * as actions from './store/Actions/index'
 
 class App extends Component {
 
-  componentWillMount() {
-    this.props.initFavoritesCities();    
+  componentDidMount() {
+    this.props.initFavoritesCities();
+
   }
+
+
   render() {
+    let route = (<Switch>
+      <Route path="/favorite" component={Favorite}/>
+      <Route path="/" component={WeatherForecast}/>
+      <Redirect to="/" />
+    </Switch>);
+
     return (
       <div >
-        <Navigation />
-        <Switch>
-          <Route path="/favorite" component={Favorite}/>
-          <Route path="/" component={WeatherForecast}/>
-          <Redirect to="/" />
-        </Switch>
+        <Layout>
+          {route}
+        </Layout>
       </div>
     )
   }

@@ -26,6 +26,13 @@ const reducer = (state = intialState, action) => {
                     isLike: action.isLike
                 }
             }
+        case ActionTypes.INITAL_DEFUALT_CITY_WITH_GEOLOCATION:
+            return {
+                ...state,
+                infoCity: {
+                    ...action.defualtCity
+                }
+            }    
         default:
             return state;
     }
