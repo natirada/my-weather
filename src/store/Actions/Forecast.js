@@ -72,7 +72,13 @@ export const initForecastFiveDaysWithGeoLocation = () => {
                 });
               });
           } else {
-            /* geolocation IS NOT available */
+            const defualtCity = {
+                city: "Tel Aviv",
+                country: "Israel",
+                key: "215854",
+                isLike: false
+            };
+            dispatch(initDefualtCity(defualtCity));
           }
     }
 }

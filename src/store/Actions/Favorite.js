@@ -2,7 +2,7 @@
 import * as ActionTypes from './actionsTypes';
 import axios from '../../axios-weather';
 
-const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb';
+const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
 
 
 const addToLocalSoreage = (infoCity) => {
@@ -54,6 +54,8 @@ const getAllCitiesFromLocalStorage = () => {
     
     return cities;
 }
+
+
 export const fetchFavoriteCities = (favortieCities) => {
     return dispatch => {
         const promises = [];
@@ -69,7 +71,7 @@ export const fetchFavoriteCities = (favortieCities) => {
                     }
                     updateFavortieCities.push(updateCity);
                     resolve();
-                })
+                }).catch(err => err)
             }))
         });
 
