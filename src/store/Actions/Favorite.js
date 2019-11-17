@@ -2,7 +2,7 @@
 import * as ActionTypes from './actionsTypes';
 import axios from '../../axios-weather';
 
-const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
+const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb';
 
 
 const addToLocalSoreage = (infoCity) => {
