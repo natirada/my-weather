@@ -65,7 +65,7 @@
 
     .WeatherForecast {
         /* border:  3px solid black; */
-        height: 75vh;
+        height: 216vh;
         width: 80%;
         margin: 0 auto;
         display: flex;
@@ -83,8 +83,10 @@
     .Cards {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
         margin-top: 4rem;
+        height: 160vh;
+        align-content: center;
        
     }
     .Like {

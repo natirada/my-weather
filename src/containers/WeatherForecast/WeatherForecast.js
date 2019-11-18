@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import Card from '../../components/Cards/ForecastCard/ForecastCard';
+import React, {useEffect, useState} from 'react';
+import CardWeather from '../../components/CardWeather/CardWeather';
 import classes from './WeatherForecast.css';
 import Like from '../../components/Like/Like';
 import AutoCompleteBoxInput from '../AutoCompleteBoxInput/AutoCompleteBoxInput';
@@ -9,61 +9,61 @@ import {connect} from 'react-redux';
 import * as actions from '../../store/Actions/index';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-weather';
+import CustomizedSnackbars from '../../components/UI/Snackbar/Snackbar';
 
 const WeatherForecast = props => {
-
+    const [snackbar, setsnackbar] = useState({variant: '',message: ''});
+    const [clickLike, setclickLike] = useState(false)
     useEffect(() => {
         props.onInitForecastFiveDaysWithGeoLocation();
-        props.onupdateForecastFiveDays(props.infoCity, isLike(props.infoCity.key));
     }, [])
 
-    // componentDidMount() {
-    //     props.onupdateForecastFiveDays(props.infoCity, isLike(props.infoCity.key));
-    // }
-
-
     const onClickSearch = (optionCitySelected) => {
-        props.onupdateForecastFiveDays(optionCitySelected ,isLike(optionCitySelected.key) );
+        props.onupdateForecastFiveDays(optionCitySelected );
     }
 
     const updateFavoriteCities = (stateLike) => {
-       props.updatIsLike(stateLike);
+        setclickLike(true);
         if(stateLike) {
             props.addToFavorite(props.infoCity);
+            setsnackbar({variant: 'success', message: 'add to favorites'});
         }else {
-            props.removeFavorite(props.infoCity.key)
+            props.removeFavorite(props.infoCity.key);
+            setsnackbar({variant: 'error', message: 'remove from favorites'});
         }
     }
 
-    const  isLike = (key) => {
-        let flag = false;
-        props.favoriteCities.forEach(el => {
-            if(el.key === key) {
-                flag = true;
-                return;
-            }
-        })
-
-        return flag;
+   const isLike = () => {
+           return props.favoriteCities.some(city => city.key === props.infoCity.key);
     }
- 
-        let cards = props.FiveDailyForecasts.map(forecasts => {
-            return <Card 
-                        key={forecasts.EpochDate} 
-                        minTemperature={convertFahrenheitToCelsius(forecasts.Temperature.Minimum.Value)}
-                        maxTemperature={convertFahrenheitToCelsius(forecasts.Temperature.Maximum.Value)}
-                        day={forecasts.Date.getDay()}
-                        idIcon={forecasts.Day.Icon}
-                        />
-        } )
+
+        let cards = props.FiveDailyForecasts.map(city => {
+            return <CardWeather 
+            width="88%"
+            height="12rem"
+            favorite={false}
+            key={city.EpochDate}
+            day={city.Date.getDay()} 
+            minTemperature={convertFahrenheitToCelsius(city.Temperature.Minimum.Value)}
+            maxTemperature={convertFahrenheitToCelsius(city.Temperature.Maximum.Value)}
+            city={city.city}
+            country={city.country}
+            discriptionDay={city.Day.IconPhrase}
+            idIconDay={city.Day.Icon}
+            discriptionNight={city.Night.IconPhrase}
+            idIconNight={city.Night.Icon}
+            />
+        });
+
         return(
           <React.Fragment>
+           {clickLike ? <CustomizedSnackbars variant={snackbar.variant} message={snackbar.message} open={clickLike} handleClose={() => setclickLike(false)}/>: null}  
             <AutoCompleteBoxInput clickOption={onClickSearch} />
             <div className={classes.WeatherForecast}>
                 <Logo className={classes.Head}/>
                 <p className={classes.CityName}>{props.infoCity.city},{props.infoCity.country}</p>
                 <span className={classes.Like}> 
-                     <Like isLike={props.infoCity.isLike} clickLike={updateFavoriteCities}/>
+                     <Like isLike={isLike()} clickLike={updateFavoriteCities}/>
                 </span>
                 <div className={classes.Cards}> 
                     {cards}

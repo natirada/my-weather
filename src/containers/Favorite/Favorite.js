@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import classes from './Favorite.css';
 import * as actions from '../../store/Actions/index';
-import Card from '../../components/Cards/FavoriteCard/FavoriteCard';
+import CardWeather from '../../components/CardWeather/CardWeather';
 import {convertFahrenheitToCelsius} from '../../shared/utilitys';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-weather';
@@ -12,21 +12,25 @@ class Favorite extends Component {
     componentDidMount() {
         this.props.fetchFavoriteCites(this.props.favoriteCities);
     }
+
     componentDidUpdate(prevProps) {   
          if(prevProps.favoriteCities !== this.props.favoriteCities) {
-            this.props.fetchFavoriteCites(this.props.favoriteCities);
-            
+            this.props.fetchFavoriteCites(this.props.favoriteCities); 
        }
     }
+
+
     onClickDelte = (cityKey) => {
         this.props.deleteFromFavorites(cityKey);
     }
     render() {
-
         let cards = <h3 className={classes.h3}>Please add cities to your favorite</h3>;
         if(this.props.fullFavoritCities.length !== 0) {
              cards = this.props.fullFavoritCities.map(city => {
-                return (<Card 
+                return (<CardWeather
+                    width="100%"
+                    height="20rem"
+                    favorite={true} 
                     key={city.key} 
                     minTemperature={convertFahrenheitToCelsius(city.Temperature.Minimum.Value)}
                     maxTemperature={convertFahrenheitToCelsius(city.Temperature.Maximum.Value)}
@@ -42,7 +46,6 @@ class Favorite extends Component {
          }    
         return (
             <div className={classes.Favorite}>
-            
                   {cards}
             </div>
         )

@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import axios from '../../axios-weather';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
+const token = 'UMCLRc9lAWet2ThAU6qZ2WxDvO00iMBC';
 
 const AutoCompleteBoxInput = (props) => {
 
@@ -46,9 +46,7 @@ const AutoCompleteBoxInput = (props) => {
     props.clickOption(optionSelected);
     
   }
-
-
- 
+  
   return (
   <div className={classes.Flexbox}>
         <Autocomplete

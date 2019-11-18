@@ -2,7 +2,7 @@
 import * as ActionTypes from './actionsTypes';
 import axios from '../../axios-weather';
 
-const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
+const token = 'UMCLRc9lAWet2ThAU6qZ2WxDvO00iMBC';
 
 
 const addToLocalSoreage = (infoCity) => {
@@ -77,7 +77,7 @@ export const fetchFavoriteCities = (favortieCities) => {
 
         Promise.all(promises).then( () => {
             dispatch(onfetchFavoriteCities(updateFavortieCities));
-        })
+        }).catch(err => err);
     }
 }
 

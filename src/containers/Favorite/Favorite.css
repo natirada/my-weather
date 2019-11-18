@@ -2,7 +2,38 @@
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 
+@media only screen and (max-width: 1125px) {
+    .Favorite {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        height: 110vh;
+    }
+    
+} 
+
+@media only screen and (max-width: 740px) {
+    .Favorite {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        height: 166vh;
+    }
+    
+} 
+@media only screen and (max-width: 480px) {
+    .Favorite {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        height: 262vh;
+    }
+    
+} 

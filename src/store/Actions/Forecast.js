@@ -1,9 +1,7 @@
 import * as ActionTypes from './actionsTypes';
 import axios from '../../axios-weather';
 
-const token = 'Ri5y2eX4Y3kO65mtvxhPDAX7AsZ1tJb1';
-
-
+const token = 'UMCLRc9lAWet2ThAU6qZ2WxDvO00iMBC';
 
 
 const onUpdateForecastFiveDays = (infoCity, fiveDailyForecasts) => {
@@ -14,7 +12,6 @@ const onUpdateForecastFiveDays = (infoCity, fiveDailyForecasts) => {
     }
 }
 
-
 const updateDailyForecasts = (dailyForecasts) => {
     let FiveDailyForecasts = [];
     for(let key in dailyForecasts){
@@ -23,40 +20,23 @@ const updateDailyForecasts = (dailyForecasts) => {
     return FiveDailyForecasts;
 }
 
-export const updateForecastFiveDays = (cityInfo ,isLike) => {
+export const updateForecastFiveDays = (cityInfo) => {
   return dispatch => {
     axios.get(`forecasts/v1/daily/5day/${cityInfo.key}?apikey=${token}`)
     .then(res =>{ 
        const fiveDailyForecasts = updateDailyForecasts(res.data.DailyForecasts);
        const updateInfoCity = {
-           ...cityInfo,
-           isLike: isLike
+           ...cityInfo
        }
        dispatch(onUpdateForecastFiveDays(updateInfoCity,fiveDailyForecasts));
     })
-    .catch(err => console.log(err))
+    .catch(err => err)
    }
 }
 
-
-export const updatIsLike = (isLike) => {
-    return  {
-        type: ActionTypes.UPDATE_IS_LIKE,
-        isLike: isLike
-    }
-}
-
-
-const initDefualtCity = (cityInfo) => {
-    return {
-        type: ActionTypes.INITAL_DEFUALT_CITY_WITH_GEOLOCATION,
-        defualtCity :cityInfo
-    }
-}
-
 export const initForecastFiveDaysWithGeoLocation = () => {
-    return dispatch => {
-        if ("geolocation" in navigator) {
+     return dispatch => { 
+          if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
@@ -66,19 +46,17 @@ export const initForecastFiveDaysWithGeoLocation = () => {
                        key: res.data.Key,
                        city: res.data.EnglishName,
                        country: res.data.Country.EnglishName,
-                       isLike: false
                    };
-                  dispatch(initDefualtCity(defualtCity));
-                });
+                   dispatch(updateForecastFiveDays(defualtCity));
+                }).catch(err => err);
               });
           } else {
             const defualtCity = {
                 city: "Tel Aviv",
                 country: "Israel",
                 key: "215854",
-                isLike: false
             };
-            dispatch(initDefualtCity(defualtCity));
+            dispatch(updateForecastFiveDays(defualtCity));
           }
-    }
+        }
 }
