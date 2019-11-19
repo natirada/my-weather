@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import axios from '../../axios-weather';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
-const token = 'UMCLRc9lAWet2ThAU6qZ2WxDvO00iMBC';
 
 const AutoCompleteBoxInput = (props) => {
 
@@ -19,7 +18,7 @@ const AutoCompleteBoxInput = (props) => {
           return;
       }
       setinput(input)
-      axios.get(`locations/v1/cities/autocomplete?apikey=${token}&&q=${input}`)
+      axios.get(`locations/v1/cities/autocomplete?q=${input}`)
       .then(res => {
             const fiveSuggetionList = res.data.slice(0,5);
             const updateSuugetionList = [];

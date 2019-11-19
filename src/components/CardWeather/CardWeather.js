@@ -19,7 +19,7 @@ const card = (props) => {
                    {headerCard}
                     <Icon propStyle={style} idIcon={props.idIconDay}/>
                     <p>{props.discriptionDay}</p> 
-                    <div className={classes.Unit}>{props.minTemperature.toFixed()} /{props.maxTemperature.toFixed()}{'\xB0C'}</div>
+                    <div className={classes.Unit}>{props.minTemperature.toFixed()} /{props.maxTemperature.toFixed()}{'\xB0' + props.char}</div>
                 </div>
                 <div className={`${classes.Side} ${classes.back}`} style={styleWidthHeight}>
                    {headerCard}

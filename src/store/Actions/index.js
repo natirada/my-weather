@@ -4,11 +4,13 @@ export
     removeFavoriteCity,
     fetchFavoriteCities,
     initFavoritesCities,
-    removeFavoriteCityFromFavorites
+    removeFavoriteCityFromFavorites,
+    onUpdateSettings
 }from './Favorite';
 
 export {
     updateForecastFiveDays,
     updatIsLike,
-    initForecastFiveDaysWithGeoLocation
+    initForecastFiveDaysWithGeoLocation,
+    onLoading
 }from './Forecast';

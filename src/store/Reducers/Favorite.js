@@ -2,8 +2,9 @@ import * as ActionTypes from '../Actions/actionsTypes';
 
 const intialState = {
     favoriteCities: [],
-    fullFavoritCities: []
-    
+    fullFavoritCities: [],
+    isLight: true,
+    isCelsius: true
 }
 
 
@@ -51,6 +52,12 @@ const reducer = (state = intialState, action) => {
                     favoriteCities: [...afterCityRemone],
                     fullFavoritCities: [...afterFullCityRemone]
                 }
+        case ActionTypes.UPDATE_SETTINGS:         
+             return {
+                 ...state,
+                 isLight: action.isLight,
+                 isCelsius: action.isCelsius
+             }   
         default:
             return state;
     }

@@ -6,7 +6,8 @@ const intialState = {
         country: "",
         key: ""
     },
-    FiveDailyForecasts : []
+    FiveDailyForecasts : [],
+    isLoading: false
 }
 
 
@@ -16,7 +17,8 @@ const reducer = (state = intialState, action) => {
         return {
             infoCity: {
                 ...action.infoCity},
-            FiveDailyForecasts: [...action.fiveDailyForecasts]
+            FiveDailyForecasts: [...action.fiveDailyForecasts],
+            isLoading: false
         }
         case ActionTypes.INITAL_DEFUALT_CITY_WITH_GEOLOCATION:
             return {
@@ -24,7 +26,12 @@ const reducer = (state = intialState, action) => {
                 infoCity: {
                     ...action.defualtCity
                 }
-            }    
+            }
+        case ActionTypes.UPDATE_IS_LOADING: 
+          return {
+            ...state,
+            isLoading: true
+           }        
         default:
             return state;
     }

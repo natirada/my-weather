@@ -10,12 +10,14 @@ import * as actions from '../../store/Actions/index';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-weather';
 import CustomizedSnackbars from '../../components/UI/Snackbar/Snackbar';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const WeatherForecast = props => {
     const [snackbar, setsnackbar] = useState({variant: '',message: ''});
-    const [clickLike, setclickLike] = useState(false)
+    const [clickLike, setclickLike] = useState(false);
     useEffect(() => {
         props.onInitForecastFiveDaysWithGeoLocation();
+        props.onLoading();
     }, [])
 
     const onClickSearch = (optionCitySelected) => {
@@ -44,8 +46,9 @@ const WeatherForecast = props => {
             favorite={false}
             key={city.EpochDate}
             day={city.Date.getDay()} 
-            minTemperature={convertFahrenheitToCelsius(city.Temperature.Minimum.Value)}
-            maxTemperature={convertFahrenheitToCelsius(city.Temperature.Maximum.Value)}
+            minTemperature={props.isCelsius ?convertFahrenheitToCelsius(city.Temperature.Minimum.Value): city.Temperature.Minimum.Value}
+            maxTemperature={props.isCelsius ?convertFahrenheitToCelsius(city.Temperature.Maximum.Value): city.Temperature.Maximum.Value}
+            char={props.isCelsius ? 'C' : 'F'}
             city={city.city}
             country={city.country}
             discriptionDay={city.Day.IconPhrase}
@@ -54,43 +57,55 @@ const WeatherForecast = props => {
             idIconNight={city.Night.Icon}
             />
         });
-
-        return(
+    
+        
+        
+        return(        
           <React.Fragment>
-           {clickLike ? <CustomizedSnackbars variant={snackbar.variant} message={snackbar.message} open={clickLike} handleClose={() => setclickLike(false)}/>: null}  
-            <AutoCompleteBoxInput clickOption={onClickSearch} />
-            <div className={classes.WeatherForecast}>
-                <Logo className={classes.Head}/>
-                <p className={classes.CityName}>{props.infoCity.city},{props.infoCity.country}</p>
-                <span className={classes.Like}> 
-                     <Like isLike={isLike()} clickLike={updateFavoriteCities}/>
-                </span>
-                <div className={classes.Cards}> 
-                    {cards}
-                </div>
-            </div>  
+                {clickLike ? <CustomizedSnackbars variant={snackbar.variant} message={snackbar.message} open={clickLike} handleClose={() => setclickLike(false)}/>: null}  
+                <AutoCompleteBoxInput clickOption={onClickSearch} />
+               { props.isLoading ?
+                <div className={classes.spinner}>
+                <Spinner/>
+                </div> : (<div className={classes.WeatherForecast}>
+                    <Logo className={classes.Head}/>
+                    <p className={classes.CityName}>{props.infoCity.city},{props.infoCity.country}</p>
+                    <span className={classes.Like}> 
+                        <Like isLike={isLike()} clickLike={updateFavoriteCities}/>
+                    </span>
+                    <div className={classes.Cards}> 
+                        {cards}
+                    </div>
+                </div>) 
+                }
+                    
           </React.Fragment>
         )
     }
 
 
-const DispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         addToFavorite: (cityInfo) => dispatch(actions.addFavoriteCity(cityInfo)),
         removeFavorite: (key) => dispatch(actions.removeFavoriteCity(key)),
         onupdateForecastFiveDays: (cityInfo, isLike) => dispatch(actions.updateForecastFiveDays(cityInfo, isLike)),
         updatIsLike: (isLike) => dispatch(actions.updatIsLike(isLike)),
-        onInitForecastFiveDaysWithGeoLocation: () => dispatch(actions.initForecastFiveDaysWithGeoLocation())
+        onInitForecastFiveDaysWithGeoLocation: () => dispatch(actions.initForecastFiveDaysWithGeoLocation()),
+        onLoading: () => dispatch(actions.onLoading())
+
     }
 }
 
-const stateToProps = state => {
+const mapStateToProps = state => {
     return {
         FiveDailyForecasts: state.Forecast.FiveDailyForecasts,
         infoCity: state.Forecast.infoCity,
-        favoriteCities: state.Favorite.favoriteCities
+        favoriteCities: state.Favorite.favoriteCities,
+        isCelsius: state.Favorite.isCelsius,
+        isLoading: state.Forecast.isLoading,
+
     }
 }
 
-export default connect(stateToProps , DispatchToProps)(withErrorHandler(WeatherForecast, axios));
+export default connect(mapStateToProps , mapDispatchToProps)(withErrorHandler(WeatherForecast, axios));
 

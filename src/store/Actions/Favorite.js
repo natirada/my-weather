@@ -2,15 +2,20 @@
 import * as ActionTypes from './actionsTypes';
 import axios from '../../axios-weather';
 
-const token = 'UMCLRc9lAWet2ThAU6qZ2WxDvO00iMBC';
-
 
 const addToLocalSoreage = (infoCity) => {
     const city = JSON.stringify(infoCity)
     localStorage.setItem(`City_${infoCity.key}`, city);
 }
 
+export const onUpdateSettings = (isLight, isCelsius) => {
+    return {
+        type: ActionTypes.UPDATE_SETTINGS,
+        isLight: isLight,
+        isCelsius: isCelsius
 
+    }
+}
 export const addFavoriteCity = (infoCity) =>{
     addToLocalSoreage(infoCity);
     return {
@@ -62,7 +67,7 @@ export const fetchFavoriteCities = (favortieCities) => {
         const updateFavortieCities = [];
         favortieCities.forEach((city) => {
             promises.push(new Promise(resolve => {
-                axios.get(`forecasts/v1/daily/1day/${city.key}?apikey=${token}`)
+                axios.get(`forecasts/v1/daily/1day/${city.key}`)
                 .then(res => {
                     let updateCity = {
                         ...city,
