@@ -17,8 +17,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const AlertDialogSlide = (props) => {
  const [open, setopen] = React.useState(true)
- const [degrees, setdegrees] = React.useState({ name: 'Celsius', stateSwitch: props.isCelsius})
- const [theme, settheme] = React.useState({ name: 'Light', stateSwitch: props.isLight})
+ const [degrees, setdegrees] = React.useState({ name: props.isCelsius ? 'Celsius': 'Fahrenheit', stateSwitch: props.isCelsius})
+ const [theme, settheme] = React.useState({ name: props.isLight ? 'Light': 'Dark', stateSwitch: props.isLight})
 
 
   const handleCloseDegrees = () => {
