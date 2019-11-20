@@ -15,11 +15,11 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 const WeatherForecast = props => {
     const [snackbar, setsnackbar] = useState({variant: '',message: ''});
     const [clickLike, setclickLike] = useState(false);
+    
     useEffect(() => {
         props.onInitForecastFiveDaysWithGeoLocation();
-        debugger;
         props.onLoading();
-    }, [])
+    },[])
 
     const onClickSearch = (optionCitySelected) => {
         props.onupdateForecastFiveDays(optionCitySelected );
