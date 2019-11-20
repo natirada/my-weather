@@ -39,7 +39,6 @@ export const updateForecastFiveDays = (cityInfo) => {
 
 
 export const initForecastFiveDaysWithGeoLocation = () => {
-    debugger;
      return dispatch => { 
           if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
