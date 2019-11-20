@@ -49,6 +49,7 @@ const reducer = (state = intialState, action) => {
                 const afterCityRemone = state.favoriteCities.filter(el => el.key !== action.cityKey);
                 const afterFullCityRemone = state.fullFavoritCities.filter(el => el.key !== action.cityKey);
                 return {
+                    ...state,
                     favoriteCities: [...afterCityRemone],
                     fullFavoritCities: [...afterFullCityRemone]
                 }

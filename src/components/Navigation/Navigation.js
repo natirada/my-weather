@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { Navbar, Nav} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import classes from './Navigation.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faHeart, faSlidersH } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +23,7 @@ class Navigation extends Component {
                         </Nav.Link>   
                     </Nav>
                     <Nav>
-                        <Nav.Link as={Link} to="/settings" style={{color: 'blue'}}>
+                        <Nav.Link as={Link} to={{pathname: this.props.location.pathname + '/settings'}} style={{color: 'blue'}}>
                                     <span className={classes.NavgationItems} > <FontAwesomeIcon icon={faSlidersH}/> Settings</span>
                         </Nav.Link>
                     </Nav>
@@ -35,4 +35,4 @@ class Navigation extends Component {
 }
 
 
-export default Navigation;
+export default withRouter(Navigation);

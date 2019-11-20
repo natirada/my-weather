@@ -40,10 +40,12 @@ export const updateForecastFiveDays = (cityInfo) => {
 
 export const initForecastFiveDaysWithGeoLocation = () => {
      return dispatch => { 
+        debugger;
           if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
+                debugger;
                 axios.get(`locations/v1/cities/geoposition/search?q=${latitude},${longitude}`)
                 .then(res => {
                    const defualtCity = {

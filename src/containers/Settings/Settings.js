@@ -36,12 +36,12 @@ const AlertDialogSlide = (props) => {
   const handleAgree = () => {
     setopen(false);
     props.updateSettings(theme.stateSwitch, degrees.stateSwitch);
-    props.history.push('/');
+    props.history.goBack();
   }
   
   const handleDisagree = () => {
     setopen(false);
-    props.history.push('/');
+    props.history.goBack();
   }
 
   return (

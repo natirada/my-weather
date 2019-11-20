@@ -17,6 +17,7 @@ const WeatherForecast = props => {
     const [clickLike, setclickLike] = useState(false);
     useEffect(() => {
         props.onInitForecastFiveDaysWithGeoLocation();
+        debugger;
         props.onLoading();
     }, [])
 

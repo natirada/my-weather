@@ -18,21 +18,25 @@ componentDidUpdate() {
   document.body.style.backgroundColor = this.props.isLight ? '#f5f5f5': '#473e3e';
 }
 
-  
-  render() {
+
+render() {
     let route = (<Switch>
         <Route path="/favorite" component={Favorite} {...this.props}/>
-        <Route path="/" component={WeatherForecast} {...this.props}/>
-        <Redirect to="/" />
+        <Route path="/home" component={WeatherForecast} {...this.props}/>
+        <Redirect to="/home" />
     </Switch>);
+    let settingsRoute = (<Switch>
+      <Route path="/favorite/settings" component={Settinges}/>
+      <Route path="/home/settings" component={Settinges}/>
+  </Switch>);
 
     return (
-      <div >
-        <Route path="/settings"  component={Settinges}/>
-        <Layout>
-          {route}
-        </Layout>
-      </div>
+        <div >
+          {settingsRoute}
+          <Layout>
+            {route}
+          </Layout>
+        </div>
     )
   }
 }
